@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.solo.solomon.soloapp.InsertPIN">
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"
+        android:text="Solo App"
+        android:textColor="#fff"
+        android:layout_alignParentTop="true"
+        android:textSize="22sp"
+        />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        >
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:text="Enter your secure PIN"
+            />
+
+
+
+        <me.philio.pinentry.PinEntryView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:numDigits="6"
+            android:id="@+id/pin"
+            app:digitWidth="30dp"
+            app:digitSpacing="8dp"
+            app:mask="*"
+            app:pinInputType="number"
+            app:accentType="character"
+            app:accentWidth="3dp"
+            />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="SUBMIT"
+            android:textColor="#fff"
+            android:background="@drawable/button_back"
+            android:textSize="18sp"
+            android:layout_margin="10dp"
+            android:id="@+id/set"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forgot"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="I forgot my PIN"
+            android:textColor="#fff"
+            />
+
+
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
