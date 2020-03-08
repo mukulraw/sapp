@@ -142,6 +142,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 progress.setVisibility(View.VISIBLE);
 
+                //Intent intent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //startActivityForResult(intent, 1);
+
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 startActivityForResult(intent, 1);
@@ -437,10 +440,10 @@ try {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-
+            bean b = (bean)getApplicationContext();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                    .baseUrl(b.baseurl)
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
@@ -532,17 +535,16 @@ try {
                     @Override
                     public void onClick(View v) {
 
-
+                        bean b = (bean)getApplicationContext();
 
                         Retrofit retrofit = new Retrofit.Builder()
-                                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                                .baseUrl(b.baseurl)
                                 .addConverterFactory(ScalarsConverterFactory.create())
                                 .addConverterFactory(GsonConverterFactory.create())
                                 .build();
 
                         allAPIs cr = retrofit.create(allAPIs.class);
 
-                        bean b = (bean)getApplicationContext();
 
                         Call<userBean> call = cr.setPIN(b.id , p2.getText().toString());
 

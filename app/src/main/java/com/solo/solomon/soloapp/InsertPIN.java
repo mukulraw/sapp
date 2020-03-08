@@ -87,16 +87,15 @@ public class InsertPIN extends AppCompatActivity {
             public void onClick(View v) {
 
                 dialog.show();
-
+                bean b = (bean)getApplicationContext();
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                        .baseUrl(b.baseurl)
                         .addConverterFactory(ScalarsConverterFactory.create())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
                 allAPIs cr = retrofit.create(allAPIs.class);
 
-                bean b = (bean)getApplicationContext();
 
                 Call<forgotBean> call = cr.forgot(b.email);
 
@@ -130,9 +129,9 @@ public class InsertPIN extends AppCompatActivity {
     {
 
         dialog.show();
-
+        bean b = (bean)getApplicationContext();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -174,9 +173,9 @@ public class InsertPIN extends AppCompatActivity {
     {
 
         dialog.show();
-
+        bean b = (bean)getApplicationContext();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();

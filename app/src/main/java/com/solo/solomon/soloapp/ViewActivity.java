@@ -98,7 +98,7 @@ public class ViewActivity extends AppCompatActivity {
 
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -179,9 +179,9 @@ public class ViewActivity extends AppCompatActivity {
                 public void onClick(View view) {
 
                     dialog.show();
-
+                    bean b = (bean)getApplicationContext();
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                            .baseUrl(b.baseurl)
                             .build();
 
                     allAPIs cr = retrofit.create(allAPIs.class);

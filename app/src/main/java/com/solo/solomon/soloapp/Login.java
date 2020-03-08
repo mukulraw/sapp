@@ -17,6 +17,10 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.solo.solomon.soloapp.POJO.userBean;
 import com.solo.solomon.soloapp.interfaces.allAPIs;
 import com.google.android.gms.auth.api.Auth;
@@ -38,7 +42,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
 
     private TextView google_signin;
-    private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInClient mGoogleSignInClient;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private static final int RC_SIGN_IN = 9001;
 
@@ -181,15 +185,12 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-        .enableAutoManage(this , this)
-        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-        .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     private void signIn() {
         dialog.show();
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -228,19 +229,25 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
 // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleSignInResult(task);
 }
     }
 
 
 
 
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
 
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
+            register(String.valueOf(account.getId()) , account.getDisplayName() , account.getEmail());
+        } catch (ApiException e) {
+            Log.d("asdasdasd" , "signInResult:failed code=" + e.getStatusCode());
+        }
 
-        if (result.isSuccess()) {
+        /*if (result.isSuccess()) {
 
             // Signed in successfully, show authenticated UI.
 
@@ -260,7 +267,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
             Log.d("asdasdasd" , "Signed Out");
 
-        }
+        }*/
 
     }
 
@@ -268,11 +275,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
 
     private void register(final String id , final String name , final String email)
     {
-
+        bean b = (bean)getApplicationContext();
         Log.d("asdasdasdasdasd" , "register");
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -323,9 +330,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.Connecti
         Log.d("asdasdasdasdasd" , "login");
 
 
+        bean b = (bean)getApplicationContext();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-54-202-167-46.us-west-2.compute.amazonaws.com/")
+                .baseUrl(b.baseurl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
